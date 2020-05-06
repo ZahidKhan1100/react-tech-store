@@ -61,7 +61,7 @@ addTotals = () => {};
 
 syncStorage = () => {};
 
-addToCArt = (id) => {
+addToCart = (id) => {
     console.log(id);
     
 };
