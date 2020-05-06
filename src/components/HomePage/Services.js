@@ -12,13 +12,13 @@ export default class Services extends Component {
                 text: ' Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, corrupti!'
             },
             {
-                id:1,
+                id:2,
                 icon: <FaRedo/>,
                 title:'30 days return policy',
                 text: ' Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, corrupti!'
             },
             {
-                id:1,
+                id:3,
                 icon: <FaDollarSign/>,
                 title:'secured payment',
                 text: ' Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam, corrupti!'
@@ -28,18 +28,18 @@ export default class Services extends Component {
     render() {
         return (
             <ServicesWrapper className="py-5">
-                <div class="container">
-                    <div class="row">
+                <div className="container">
+                    <div className="row">
                         {this.state.services.map(items =>{
                             return(
-                                <div class="col-10 mx-auto col-sm-6 col-md-4 text-center my-3" key={items.id}>
-                                    <div class="services-icon">
+                                <div className="col-10 mx-auto col-sm-6 col-md-4 text-center my-3" key={items.id}>
+                                    <div className="services-icon">
                                         {items.icon}
                                     </div>
-                                    <div class="mt-3 text-capitalize">
+                                    <div className="mt-3 text-capitalize">
                                         {items.title}
                                     </div>
-                                    <div class="mt-3">
+                                    <div className="mt-3">
                                         <p>{items.text}</p>
                                     </div>
                                 </div>
