@@ -2,7 +2,7 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import styled from 'styled-components'
 import {FaSearch, FaCartPlus} from 'react-icons/fa'
-import {ProductConsumer} from '../context'
+import {ProductConsumer} from '../context/context'
 
 
 export default function Product({product}) {
@@ -21,13 +21,12 @@ export default function Product({product}) {
                                 <Link to={`/products/${product.id}`} onClick={() =>
                                 setSingleProduct(product.id)}>
                                     <FaSearch className="icon"></FaSearch>
-                                    <FaCartPlus className="icon" onClick={() => addToCart(product.id)}>
-
-                                    </FaCartPlus>
+                                    
                                 </Link>
+                                <FaCartPlus className="icon" onClick={()=> addToCart(product.id)}/>
                                 </div>
                             </div>
-                            <div class="card-body d-flex justify-content-between">
+                            <div className="card-body d-flex justify-content-between">
                                     <p className="mb-0">{product.title}</p>
                                     <p className="mb-0 text-main">${product.price}</p>
                             </div>

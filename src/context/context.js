@@ -35,7 +35,6 @@ let storeProducts = items.map(item =>{
     const product = {id,...item.fields,image};
     return product;
 });
-console.log(storeProducts);
 let featuredProducts = storeProducts.filter(item => item.featured === true);
 this.setState({
     storeProducts,
@@ -44,25 +43,86 @@ this.setState({
     cart: this.getStorageCart(),
     singleProduct:this.getStorageProduct,
     loading: false
+},()=>{this.getTotals();
 });
 };
 
 getStorageCart = () =>{
-    return [];
+    let cart;
+    if(localStorage.getItem("cart")){
+        cart = JSON.parse(localStorage.getItem("cart"));
+    }
+    else{
+        cart = [];
+    }
+    return cart;
 }
 
 getStorageProduct = () =>{
     return {};
 }
 
-getTotals = () => {};
+getTotals = () => {
+    let subTotal = 0;
+    let cartItems = 0;
+    this.state.cart.forEach(item =>{
+        subTotal += item.total;
+        cartItems += item.count;
+    });
 
-addTotals = () => {};
+    subTotal = parseFloat(subTotal.toFixed(2));
+    let tax = subTotal * 0.2;
+    tax = parseFloat(tax.toFixed(2));
+    let total = subTotal + tax ;
+    total = parseFloat(total.toFixed(2));
+    return {
+        cartItems,
+        subTotal,
+        tax,
+        total
+    };
+};
+// add total
+addTotals = () => {
+    const totals = this.getTotals();
+    this.setState({
+        cartItems:totals.cartItems,
+        cartSubTotal:totals.subTotal,
+        cartTax:totals.tax,
+        cartTotal:totals.total
+    })
+};
 
-syncStorage = () => {};
+syncStorage = () => {
+    localStorage.setItem("cart", JSON.stringify(this.state.cart));
+};
 
-addToCart = (id) => {
-    console.log(id);
+addToCart = id => {
+    let tempCart = [...this.state.cart];
+    let tempProducts = [...this.state.storeProducts];
+    let tempItem = tempCart.find(item => item.id === id);
+    if(!tempItem){
+        tempItem = tempProducts.find(item => item.id === id);
+        let total = tempItem.price;
+        let cartItem = {...tempItem,count:1,total};
+        tempCart = [...tempCart,cartItem]
+    }
+    else{
+        tempItem.count++;
+        tempItem.total = tempItem.price * tempItem.count;
+        tempItem.total = parseFloat(tempItem.total.toFixed(2));
+    }
+    this.setState(
+        () =>{
+            return {cart:tempCart};
+        },
+        () => {
+            this.addTotals();
+            this.syncStorage();
+            this.openCart();
+        }
+    );
+    
     
 };
 
@@ -92,7 +152,7 @@ setSingleProduct = (id) => {
                     handleCart:this.handleCart,
                     openCart:this.openCart,
                     closeCart:this.closeCart,
-                    addToCArt:this.addToCArt ,
+                    addToCart:this.addToCart ,
                     setSingleProduct:this.setSingleProduct
                 }
             }>
