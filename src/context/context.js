@@ -43,7 +43,7 @@ this.setState({
     cart: this.getStorageCart(),
     singleProduct:this.getStorageProduct,
     loading: false
-},()=>{this.getTotals();
+},()=>{this.addTotals();
 });
 };
 
