@@ -20,7 +20,7 @@ class ProductProvider extends Component{
         filteredProducts: [],
         featuredProducts: [],
         singleProduct: {},
-        loading: false
+        loading: true
     };
 
     componentDidMount(){
@@ -28,8 +28,8 @@ class ProductProvider extends Component{
         this.setProducts(items);
     }
 
-setProducts = items =>{
-let storeProducts = items.map(item =>{
+setProducts = products =>{
+let storeProducts = products.map(item =>{
     const {id} = item.sys;
     const image = item.fields.image.fields.file.url;
     const product = {id,...item.fields,image};
@@ -41,7 +41,7 @@ this.setState({
     filteredProducts:storeProducts,
     featuredProducts,
     cart: this.getStorageCart(),
-    singleProduct:this.getStorageProduct,
+    singleProduct:this.getStorageProduct(),
     loading: false
 },()=>{this.addTotals();
 });
@@ -57,10 +57,10 @@ getStorageCart = () =>{
     }
     return cart;
 }
-
+// get Storage Product
 getStorageProduct = () =>{
-    return {};
-}
+    return localStorage.getItem("singleProduct")?JSON.parse(localStorage.getItem("singleProduct")):{};
+};
 
 getTotals = () => {
     let subTotal = 0;
@@ -92,11 +92,11 @@ addTotals = () => {
         cartTotal:totals.total
     })
 };
-
+// SyncStorege in Local Storage
 syncStorage = () => {
     localStorage.setItem("cart", JSON.stringify(this.state.cart));
 };
-
+// Add to Cart
 addToCart = id => {
     let tempCart = [...this.state.cart];
     let tempProducts = [...this.state.storeProducts];
@@ -125,9 +125,14 @@ addToCart = id => {
     
     
 };
-
-setSingleProduct = (id) => {
-    console.log(`single product id ${id}`);
+// set Single Product
+setSingleProduct = id => {
+    let product = this.state.storeProducts.find(item => item.id === id);
+    localStorage.setItem("singleProduct",JSON.stringify(product));
+    this.setState({
+        singleProduct: {...product},
+        loading: false
+    })
     
 }
 
