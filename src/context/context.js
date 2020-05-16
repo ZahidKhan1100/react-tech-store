@@ -148,6 +148,25 @@ setSingleProduct = id => {
     openCart = () =>{
         this.setState({cartOpen:true})
     }
+
+    //cart functionality
+increment = (id) =>{
+    console.log(id);
+    
+}
+
+decrement = id =>{
+    console.log(id);
+    
+}
+removeItem = id =>{
+    console.log(id);
+    
+}
+clearCart = id =>{
+    console.log(id);
+    
+}
     render(){
         return(
             <ProductContext.Provider value={
@@ -158,7 +177,11 @@ setSingleProduct = id => {
                     openCart:this.openCart,
                     closeCart:this.closeCart,
                     addToCart:this.addToCart ,
-                    setSingleProduct:this.setSingleProduct
+                    setSingleProduct:this.setSingleProduct,
+                    increment:this.increment,
+                    decrement:this.decrement,
+                    removeItem:this.removeItem,
+                    clearCart:this.clearCart
                 }
             }>
             {this.props.children}
